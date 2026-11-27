@@ -351,3 +351,72 @@ footer .flinks a{color:var(--amber);text-decoration:none;font-weight:600}
             </div>
             <div>
               <span class="stamp amber" id="stamp">—</span>
+
+                            <div class="vname" id="vName">—</div>
+              <div class="vwhy" id="vWhy"></div>
+            </div>
+          </div>
+          <div class="vmeta" id="vMeta"></div>
+          <div class="lights" id="lights"></div>
+          <div class="spoon" id="spoonBox"></div>
+          <div class="vbtns">
+            <button class="btn btn-terra" type="button" id="logToday">Log one serving to today</button>
+            <button class="btn btn-line" type="button" id="addCompare">Add to compare</button>
+            <button class="btn btn-line" type="button" id="copyVerdict">Copy verdict</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+  <!-- quick picks -->
+  <section id="picks">
+    <div class="secHead">
+      <span class="n">02</span>
+      <div>
+        <h2>Quick picks — famous packets</h2>
+        <p>Twelve Indian favourites with typical per-100g values. Tap one to load it into the decoder and see its real colours.</p>
+      </div>
+      <span class="hint">Typical values — always check your own pack</span>
+    </div>
+    <div class="rail" id="pickRail"></div>
+  </section>
+
+  <!-- compare -->
+  <section id="compare">
+    <div class="secHead">
+      <span class="n">03</span>
+      <div>
+        <h2>Compare shelf</h2>
+        <p>Biscuits vs biscuits, cola vs energy drink. Add up to three decoded products and the best one gets the green crown.</p>
+      </div>
+      <span class="hint" id="cmpHint">0 of 3 on the shelf</span>
+    </div>
+    <div class="cmpGrid" id="cmpGrid"></div>
+    <div class="cmpActions">
+      <button class="btn btn-line" type="button" id="clearCmp">Clear the shelf</button>
+    </div>
+  </section>
+  <!-- today -->
+  <section id="today">
+    <div class="secHead">
+      <span class="n">04</span>
+      <div>
+        <h2>Today&rsquo;s budget</h2>
+        <p>Every serving you log eats into the day&rsquo;s sugar and salt budget. Two biscuits are fine. The whole pack is a different story.</p>
+      </div>
+      <span class="hint">Budgets: WHO — 25g added sugar, 5g salt a day</span>
+    </div>
+    <div class="todayGrid">
+      <div class="panel">
+        <h3>How much of the day is used?</h3>
+        <p class="sub">Rings fill as you log servings from the decoder.</p>
+        <div class="rings">
+          <div class="ringS">
+            <svg width="128" height="128" viewBox="0 0 128 128"><circle cx="64" cy="64" r="54" fill="none" stroke="#eadfca" stroke-width="11"/><circle id="sugarArc" cx="64" cy="64" r="54" fill="none" stroke="#c05b2e" stroke-width="11" stroke-linecap="round" stroke-dasharray="339.3" stroke-dashoffset="339.3"/></svg>
+            <div class="val"><b id="sugarUsed">0g</b><span>sugar</span><small>of 25g a day</small></div>
+          </div>
+          <div class="ringS">
+            <svg width="128" height="128" viewBox="0 0 128 128"><circle cx="64" cy="64" r="54" fill="none" stroke="#eadfca" stroke-width="11"/><circle id="saltArc" cx="64" cy="64" r="54" fill="none" stroke="#b07d3c" stroke-width="11" stroke-linecap="round" stroke-dasharray="339.3" stroke-dashoffset="339.3"/></svg>
+            <div class="val"><b id="saltUsed">0g</b><span>salt</span><small>of 5g a day</small></div>
+          </div>
+        </div>

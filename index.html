@@ -607,3 +607,57 @@ function verdictWhy(r,vals){
   if(r.ambers)bits.push(r.ambers+(r.ambers===1?' amber light':' amber lights'));
   if(!bits.length)bits.push('no red or amber lights');
   var s='That is '+bits.join(' and ')+' across the four nutrients we check.';
+
+    if(r.serveSugar!=null&&r.serveSugar>=20)s+=' One serving carries about '+Math.round(r.serveSugar)+'g of sugar — most of a day\'s 25g budget in one go.';
+  if(vals.fibre!=null&&vals.fibre>=6)s+=' The fibre ('+fmt(vals.fibre,0)+'g) helps a little.';
+  return s;
+}
+
+/* ============ render: verdict ============ */
+var current=null;
+var DOT={green:'LOW',amber:'MEDIUM',red:'HIGH'};
+var LNAME={sugar:'Sugars',salt:'Salt',fat:'Total fat',sat:'Saturated fat'};
+function readForm(){
+  return {
+    name:($('fName').value||'').trim()||'This product',
+    energy:num($('fEnergy').value),serving:num($('fServing').value),
+    sugar:num($('fSugar').value),salt:num($('fSalt').value),
+    fat:num($('fFat').value),sat:num($('fSat').value),
+    protein:num($('fProtein').value),fibre:num($('fFibre').value)
+  };
+}
+function renderVerdict(vals,r){
+  current={vals:vals,r:r};
+  $('verdictEmpty').style.display='none';
+  $('verdictBody').style.display='block';
+  $('scoreNum').textContent=r.score;
+  var arc=$('scoreArc');
+  arc.style.strokeDashoffset=(351.8*(1-r.score/100)).toFixed(1);
+  arc.style.stroke=r.stamp==='green'?'#3f7a4e':r.stamp==='amber'?'#e8a33d':r.stamp==='terra'?'#c05b2e':'#b3372a';
+  var st=$('stamp');st.className='stamp '+r.stamp;st.textContent=r.verdict;
+  $('vName').textContent=vals.name;
+  $('vWhy').textContent=verdictWhy(r,vals);
+  var meta=[];
+  if(vals.serving!=null)meta.push('Serving: '+fmt(vals.serving,0)+'g');
+  if(vals.energy!=null)meta.push(fmt(vals.energy,0)+' kcal / 100g');
+  meta.push(r.entered+' of 4 nutrients checked');
+  if(r.serveSugar!=null&&r.serveSugar>=20)meta.push('Serving sugar '+fmt(r.serveSugar,0)+'g — most of the day');
+  $('vMeta').innerHTML=meta.map(function(m,i){return '<span'+(i===meta.length-1&&/most of the day/.test(m)?' class="warn"':'')+'>'+esc(m)+'</span>';}).join('');
+  var html='';
+  ['sugar','salt','fat','sat'].forEach(function(k){
+    var L=r.lights[k],th=THRESH[k];
+    if(!L){html+='<div class="light"><div class="lname">'+LNAME[k]+'<small>not on the packet</small></div><div class="bar"><i style="width:0%"></i></div><span class="dot" style="background:var(--paper2);color:var(--ink3)">NOT LISTED</span></div>';return;}
+    var pct=Math.min(100,(L.v100/(th.amber*1.4))*100);
+    var col=L.c==='green'?'#3f7a4e':L.c==='amber'?'#e8a33d':'#b3372a';
+    var serveTxt=vals.serving!=null?(' · '+fmt(L.serve,1)+'g per serving'):'';
+    html+='<div class="light"><div class="lname">'+LNAME[k]+'<small>'+fmt(L.v100,1)+'g per 100g'+serveTxt+'</small></div><div class="bar"><i style="width:'+pct.toFixed(0)+'%;background:'+col+'"></i></div><span class="dot '+L.c+'">'+DOT[L.c]+'</span></div>';
+  });
+  $('lights').innerHTML=html;
+  var tsp=(r.serveSugar!=null)?(r.serveSugar/4):(vals.sugar!=null?vals.sugar/4:null);
+  $('spoonBox').innerHTML=tsp!=null
+    ?'<b>That is about '+fmt(tsp,1)+' teaspoons of sugar</b> in '+(vals.serving!=null?('one serving ('+fmt(vals.serving,0)+'g)'):'every 100g')+'. One teaspoon is roughly 4g of sugar — and the whole day\'s budget is about 6 teaspoons.'
+    :'Add a sugar value and the serving size to see the teaspoons hiding in one portion.';
+}
+/* ============ render: picks ============ */
+function renderPicks(){
+  $('pickRail').innerHTML=PICKS.map(function(p,i){

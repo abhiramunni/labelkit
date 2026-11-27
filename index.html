@@ -479,3 +479,53 @@ footer .flinks a{color:var(--amber);text-decoration:none;font-weight:600}
       <a href="https://www.who.int/news-room/fact-sheets/detail/salt-reduction" target="_blank" rel="noopener">WHO — salt, under 5g a day</a><br>
       <a href="https://www.who.int/news-room/fact-sheets/detail/healthy-diet" target="_blank" rel="noopener">WHO — free sugars, under 25g a day</a><br>
       <a href="https://www.food.gov.uk/safety-hygiene/food-labelling" target="_blank" rel="noopener">UK Food Standards Agency — traffic-light labelling</a>
+
+          </div>
+  </div>
+  <div class="wrap footbar">
+    <div class="fbtns">
+      <button class="fbtn" type="button" id="copySummary">Copy my day&rsquo;s summary</button>
+      <button class="fbtn" type="button" id="eraseAll">Erase everything</button>
+    </div>
+    <span style="font-size:13px;opacity:.8">Made for the kitchen shelf &middot; works offline &middot; nothing leaves your phone</span>
+  </div>
+</footer>
+
+<!-- coach -->
+<div id="coach" role="dialog" aria-label="Quick tour">
+  <div class="coachCard">
+    <div class="step" id="coachStep">Step 1 of 3</div>
+    <h3 id="coachTitle">Start with the numbers on the packet</h3>
+    <p id="coachText">Flip any packet over. The &ldquo;per 100g&rdquo; row is the honest one — type sugar, salt and fat into the decoder and tap Decode.</p>
+    <div class="dots"><i class="on"></i><i></i><i></i></div>
+    <div class="crow">
+      <button class="btn btn-line" type="button" id="coachSkip">Skip tour</button>
+      <button class="btn btn-ink" type="button" id="coachNext">Next</button>
+    </div>
+  </div>
+</div>
+<div id="toast" role="status"></div>
+<script>
+(function(){
+'use strict';
+/* ============ data ============ */
+/* PICKS: typical per-100g values for well-known Indian packets (indicative —
+   brands change recipes; the app labels them "typical" everywhere). */
+var PICKS=[
+ {name:'Parle-G Gluco Biscuits',cat:'Biscuits',energy:450,sugar:25,salt:0.9,fat:12,sat:5.5,protein:6.5,fibre:1.5,serving:20},
+ {name:'Maggi 2-Minute Noodles',cat:'Instant food',energy:380,sugar:1.5,salt:3.8,fat:14,sat:6.5,protein:8,fibre:2.5,serving:70},
+ {name:'Cola (330 ml bottle)',cat:'Soft drink',energy:42,sugar:10.6,salt:0,fat:0,sat:0,protein:0,fibre:0,serving:330},
+ {name:'Kurkure Masala Munch',cat:'Snacks',energy:550,sugar:3,salt:2.2,fat:33,sat:14,protein:6,fibre:3,serving:30},
+ {name:"Haldiram's Bhujia",cat:'Namkeen',energy:540,sugar:1,salt:2,fat:32,sat:10,protein:14,fibre:8,serving:30},
+ {name:'Tomato Ketchup',cat:'Sauce',energy:110,sugar:22,salt:2,fat:0.3,sat:0,protein:1,fibre:0.5,serving:15},
+ {name:'Cornflakes (plain)',cat:'Breakfast',energy:380,sugar:8,salt:1,fat:1,sat:0.2,protein:7,fibre:3,serving:30},
+ {name:'White Bread',cat:'Bakery',energy:260,sugar:4,salt:1.1,fat:3,sat:0.5,protein:9,fibre:2.5,serving:40},
+ {name:'Chocolate Flavoured Milk',cat:'Dairy drink',energy:80,sugar:11,salt:0.1,fat:2.5,sat:1.6,protein:3,fibre:0,serving:200},
+ {name:'Salted Potato Chips',cat:'Snacks',energy:540,sugar:0.5,salt:1.5,fat:34,sat:15,protein:6,fibre:4,serving:30},
+ {name:'Energy Drink (250 ml)',cat:'Soft drink',energy:46,sugar:11,salt:0.1,fat:0,sat:0,protein:0,fibre:0,serving:250},
+ {name:'Oats Biscuits',cat:'Biscuits',energy:470,sugar:22,salt:0.8,fat:20,sat:9,protein:7,fibre:5,serving:30}
+];
+var ALIASES=[
+ {n:'Dextrose',d:'Dextrose is glucose by another name — it is sugar, full stop. It raises blood sugar just as fast as table sugar.'},
+ {n:'Maltodextrin',d:'Maltodextrin is a starch broken into fast-digesting sugars. It often hides in "sugar-free" snacks and still counts.'},
+ {n:'High-fructose corn syrup',d:'HFCS is the sweetener in most colas and ketchups. Cheap, very sweet, and still sugar — about 11g per 100ml of cola.'},

@@ -551,3 +551,59 @@ var GUIDES=[
 /* UK front-of-pack traffic-light thresholds, per 100g. Per-serving red lines
    (sugar >27g, salt >1.8g, fat >21g, saturates >6g) flip a light to red. */
 var THRESH={
+
+   sugar:{green:5,amber:22.5,serveRed:27,label:'Sugars',unit:'g'},
+ salt:{green:0.3,amber:1.5,serveRed:1.8,label:'Salt',unit:'g'},
+ fat:{green:3,amber:17.5,serveRed:21,label:'Total fat',unit:'g'},
+ sat:{green:1.5,amber:5,serveRed:6,label:'Saturated fat',unit:'g'}
+};
+var KEY='labelkit-v1';
+var DEFAULT_STATE={seen:false,coachDone:false,compare:[],today:[],samples:true};
+var state=load();
+function load(){try{var s=JSON.parse(localStorage.getItem(KEY)||'null');if(s&&typeof s==='object'){return {seen:!!s.seen,coachDone:!!s.coachDone,compare:Array.isArray(s.compare)?s.compare:[],today:Array.isArray(s.today)?s.today:[],samples:s.samples!==false};}}catch(e){}return {seen:false,coachDone:false,compare:[],today:[],samples:true};}
+function save(){try{localStorage.setItem(KEY,JSON.stringify(state));}catch(e){}}
+/* ============ helpers ============ */
+function $(id){return document.getElementById(id);}
+function esc(s){return String(s==null?'':s).replace(/[&<>"']/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c];});}
+function num(v){var n=parseFloat(v);return isFinite(n)?n:null;}
+function fmt(n,d){return (n==null||!isFinite(n))?'–':Number(n).toFixed(d==null?1:d);}
+function toast(msg){var t=$('toast');if(!t)return;t.textContent=msg;t.classList.add('show');clearTimeout(t._h);t._h=setTimeout(function(){t.classList.remove('show');},2600);}
+function safeScroll(el){try{if(el&&el.scrollIntoView)el.scrollIntoView({behavior:'smooth',block:'start'});}catch(e){}}
+/* ============ scoring ============ */
+function lightFor(key,v100,serve){
+  if(v100==null)return null;
+  var th=THRESH[key],c='green';
+  if(v100>th.amber)c='red';else if(v100>th.green)c='amber';
+  if(serve!=null&&serve>th.serveRed)c='red';
+  return c;
+}
+function decode(vals){
+  var serving=vals.serving;
+  var lights={},entered=0;
+  ['sugar','salt','fat','sat'].forEach(function(k){
+    var v=vals[k];
+    if(v==null){lights[k]=null;return;}
+    entered++;
+    var serve=(serving!=null)?v*serving/100:null;
+    lights[k]={c:lightFor(k,v,serve),v100:v,serve:serve};
+  });
+  var score=100,reds=0,ambers=0;
+  Object.keys(lights).forEach(function(k){var L=lights[k];if(!L)return;if(L.c==='red'){score-=22;reds++;}else if(L.c==='amber'){score-=8;ambers++;}});
+  var serveSugar=(vals.sugar!=null&&serving!=null)?vals.sugar*serving/100:null;
+  if(serveSugar!=null&&serveSugar>=20)score-=10;
+  if(vals.fibre!=null&&vals.fibre>=6)score+=5;
+  if(vals.protein!=null&&vals.protein>=10)score+=3;
+  score=Math.max(0,Math.min(100,score));
+  var verdict,stamp;
+  if(score>=80){verdict='Everyday pick';stamp='green';}
+  else if(score>=60){verdict='Sometimes food';stamp='amber';}
+  else if(score>=40){verdict='Occasional treat';stamp='terra';}
+  else{verdict='Best left on the shelf';stamp='red';}
+  return {lights:lights,score:score,verdict:verdict,stamp:stamp,reds:reds,ambers:ambers,entered:entered,serveSugar:serveSugar};
+}
+function verdictWhy(r,vals){
+  var bits=[];
+  if(r.reds)bits.push(r.reds+(r.reds===1?' red light':' red lights'));
+  if(r.ambers)bits.push(r.ambers+(r.ambers===1?' amber light':' amber lights'));
+  if(!bits.length)bits.push('no red or amber lights');
+  var s='That is '+bits.join(' and ')+' across the four nutrients we check.';

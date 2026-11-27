@@ -420,3 +420,62 @@ footer .flinks a{color:var(--amber);text-decoration:none;font-weight:600}
             <div class="val"><b id="saltUsed">0g</b><span>salt</span><small>of 5g a day</small></div>
           </div>
         </div>
+
+                <p class="fnote" id="budgetNote" style="text-align:center">Nothing logged yet today. Decode something above and tap &ldquo;Log one serving&rdquo;.</p>
+        <div class="btnrow" style="justify-content:center"><button class="btn btn-line" type="button" id="resetToday">Start a new day</button></div>
+      </div>
+      <div class="panel">
+        <h3>Logged today</h3>
+        <p class="sub">One row per serving you ate or drank.</p>
+        <div class="todayList" id="todayList"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- sugar names -->
+  <section id="aliases">
+    <div class="secHead">
+      <span class="n">05</span>
+      <div>
+        <h2>Sugar&rsquo;s many names</h2>
+        <p>If the ingredients list has any of these, the product has sugar in it — even when the front says &ldquo;no added sugar&rdquo;.</p>
+      </div>
+    </div>
+    <div class="aliases" id="aliasChips"></div>
+    <div class="aliasNote" id="aliasNote">Tap a name to see what it really is.</div>
+  </section>
+
+  <!-- trap + guides -->
+  <section id="guides">
+    <div class="secHead">
+      <span class="n">06</span>
+      <div>
+        <h2>The serving-size trap &amp; six guides</h2>
+        <p>The oldest trick on a packet: a tiny &ldquo;serving&rdquo; that makes the numbers look small. The pack is the serving that matters.</p>
+      </div>
+    </div>
+    <div class="split">
+      <div class="trap">
+        <img src="labelkit-flatlay.webp" alt="Hands holding a biscuit packet showing its nutrition facts label" onerror="this.style.display='none'">
+        <div class="veil"></div>
+        <div class="tcopy">
+          <h3>One biscuit is 5g of sugar. The pack is 25g.</h3>
+          <p>The label&rsquo;s per-serving column uses the smallest serving the maker can justify. Multiply by what you actually eat — that is the number that counts.</p>
+          <span class="big">Rule of thumb: if you finish the pack, count the whole pack.</span>
+        </div>
+      </div>
+      <div id="guideList"></div>
+    </div>
+  </section>
+</div>
+<footer>
+  <div class="wrap">
+    <div>
+      <h3>LabelKit — plain words, honest numbers.</h3>
+      <p>Traffic-light thresholds follow the widely used UK front-of-pack system (per 100g). India&rsquo;s own front-of-pack rules are being finalised — in November 2026 the Supreme Court gave FSSAI four months to finalise &ldquo;High Sugar / High Salt / High Fat&rdquo; warnings on packets. Typical values in Quick Picks are indicative: brands change recipes, so always read your own pack. This app is a guide, not medical advice — if you manage diabetes, blood pressure or kidney disease, check with your doctor.</p>
+    </div>
+    <div class="flinks">
+      <a href="https://www.fssai.gov.in/" target="_blank" rel="noopener">FSSAI — Food Safety and Standards Authority of India</a><br>
+      <a href="https://www.who.int/news-room/fact-sheets/detail/salt-reduction" target="_blank" rel="noopener">WHO — salt, under 5g a day</a><br>
+      <a href="https://www.who.int/news-room/fact-sheets/detail/healthy-diet" target="_blank" rel="noopener">WHO — free sugars, under 25g a day</a><br>
+      <a href="https://www.food.gov.uk/safety-hygiene/food-labelling" target="_blank" rel="noopener">UK Food Standards Agency — traffic-light labelling</a>

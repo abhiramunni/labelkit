@@ -318,3 +318,36 @@ footer .flinks a{color:var(--amber);text-decoration:none;font-weight:600}
         <form id="decodeForm" novalidate>
           <div class="fgrid">
             <div class="field full"><label for="fName">Product name</label><input id="fName" type="text" placeholder="e.g. Parle-G biscuits" autocomplete="off"></div>
+
+                        <div class="field"><label for="fEnergy">Energy <small>(kcal)</small></label><input id="fEnergy" type="number" min="0" max="9999" step="any" placeholder="450" inputmode="decimal"></div>
+            <div class="field"><label for="fServing">One serving <small>(g or ml)</small></label><input id="fServing" type="number" min="1" max="9999" step="any" placeholder="30" inputmode="decimal"></div>
+            <div class="field"><label for="fSugar">Sugars <small>(g per 100g)</small></label><input id="fSugar" type="number" min="0" max="100" step="any" placeholder="25" inputmode="decimal"></div>
+            <div class="field"><label for="fSalt">Salt <small>(g per 100g)</small></label><input id="fSalt" type="number" min="0" max="100" step="any" placeholder="0.9" inputmode="decimal"></div>
+            <div class="field"><label for="fFat">Total fat <small>(g per 100g)</small></label><input id="fFat" type="number" min="0" max="100" step="any" placeholder="12" inputmode="decimal"></div>
+            <div class="field"><label for="fSat">Saturated fat <small>(g per 100g)</small></label><input id="fSat" type="number" min="0" max="100" step="any" placeholder="5.5" inputmode="decimal"></div>
+            <div class="field"><label for="fProtein">Protein <small>(g per 100g)</small></label><input id="fProtein" type="number" min="0" max="100" step="any" placeholder="6.5" inputmode="decimal"></div>
+            <div class="field"><label for="fFibre">Fibre <small>(g per 100g)</small></label><input id="fFibre" type="number" min="0" max="100" step="any" placeholder="1.5" inputmode="decimal"></div>
+          </div>
+          <p class="fnote">Packet lists sodium instead of salt? Salt (g) = sodium (mg) &times; 2.5 &divide; 1000. So 400mg sodium = 1g salt.</p>
+          <div class="btnrow">
+            <button class="btn btn-ink" type="submit">Decode this label</button>
+            <button class="btn btn-line" type="button" id="clearForm">Clear</button>
+            <button class="btn btn-line" type="button" id="fillSample">Try Parle-G</button>
+          </div>
+        </form>
+      </div>
+      <div class="panel verdict" id="verdictPanel">
+        <h3>Your verdict</h3>
+        <p class="sub">Traffic lights, score and what it means — in plain words.</p>
+        <div class="empty" id="verdictEmpty">
+          <svg viewBox="0 0 24 24" fill="none" stroke="#9a8871" stroke-width="1.6" stroke-linecap="round"><circle cx="10.5" cy="10.5" r="6.5"/><path d="M15.5 15.5 21 21"/><path d="M8 10.5h5M10.5 8v5"/></svg>
+          <p>Nothing decoded yet. Fill in the numbers on the left — or tap <b>Try Parle-G</b> — and the verdict appears here.</p>
+        </div>
+        <div id="verdictBody" style="display:none">
+          <div class="scoreRow">
+            <div class="ring">
+              <svg width="132" height="132" viewBox="0 0 132 132"><circle cx="66" cy="66" r="56" fill="none" stroke="#eadfca" stroke-width="11"/><circle id="scoreArc" cx="66" cy="66" r="56" fill="none" stroke="#b07d3c" stroke-width="11" stroke-linecap="round" stroke-dasharray="351.8" stroke-dashoffset="351.8"/></svg>
+              <div class="val"><b id="scoreNum">–</b><span>out of 100</span></div>
+            </div>
+            <div>
+              <span class="stamp amber" id="stamp">—</span>

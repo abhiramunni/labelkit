@@ -254,3 +254,67 @@ footer .flinks a{color:var(--amber);text-decoration:none;font-weight:600}
 </style>
 </head>
 <body>
+
+  <!-- intro -->
+<div id="intro" role="dialog" aria-label="Welcome to LabelKit">
+  <div class="lens"><svg viewBox="0 0 24 24" fill="none" stroke="#e8a33d" stroke-width="2" stroke-linecap="round"><circle cx="10.5" cy="10.5" r="6.5"/><path d="M15.5 15.5 21 21"/></svg></div>
+  <h1>Label<em>Kit</em></h1>
+  <p>The packet says &ldquo;healthy&rdquo;. The label tells the truth.</p>
+  <div class="bar"><i></i></div>
+  <button class="skip" type="button" id="introSkip">Skip intro</button>
+</div>
+
+<!-- header -->
+<header class="top">
+  <div class="wrap">
+    <a class="logo" href="#"><span class="mk"><svg viewBox="0 0 24 24" fill="none" stroke="#fffaf0" stroke-width="2" stroke-linecap="round"><circle cx="10.5" cy="10.5" r="6.5"/><path d="M15.5 15.5 21 21"/></svg></span>Label<em>Kit</em></a>
+    <nav>
+      <a href="#decoder">Decoder</a>
+      <a href="#picks">Quick picks</a>
+      <a href="#compare">Compare</a>
+      <a href="#today">Today</a>
+      <a href="#guides">Guides</a>
+    </nav>
+    <button class="todaypill" type="button" id="todayPill">Today: <b id="todayPillTxt">0g sugar &middot; 0g salt</b></button>
+  </div>
+</header>
+
+<!-- hero -->
+<div class="hero">
+  <div class="ph"><img src="labelkit-hero.webp" alt="Indian snacks and a cola bottle on a warm kitchen counter with a magnifying glass" onerror="this.style.display='none'"></div>
+  <div class="veil"></div>
+  <div class="copy">
+    <span class="kicker">Food labels, decoded</span>
+    <h1>The packet says &ldquo;healthy&rdquo;.<br><em>The label tells the truth.</em></h1>
+    <p>Type the numbers from any packet — sugar, salt, fat — and get traffic lights, a score out of 100, and what one serving really does to your day. No jargon, no lectures.</p>
+    <div class="ctaRow">
+      <a class="btn btn-amber" href="#decoder">Decode a label now</a>
+      <a class="btn btn-ghost" href="#picks">Try a famous snack first</a>
+    </div>
+  </div>
+</div>
+
+<div class="wrap">
+  <div class="stats">
+    <div class="stat"><b>4</b><span>traffic lights</span><em>sugar &middot; salt &middot; fat &middot; saturates</em></div>
+    <div class="stat"><b>12</b><span>snacks pre-loaded</span><em>typical Indian packets</em></div>
+    <div class="stat"><b>25g</b><span>added sugar a day</span><em>WHO daily guidance</em></div>
+    <div class="stat"><b>5g</b><span>salt a day</span><em>WHO daily guidance</em></div>
+  </div>
+  <!-- decoder -->
+  <section id="decoder">
+    <div class="secHead">
+      <span class="n">01</span>
+      <div>
+        <h2>The Label Decoder</h2>
+        <p>Copy the &ldquo;per 100g&rdquo; row from the back of the packet. Leave a box blank if the packet doesn&rsquo;t list it — the score only uses what you enter.</p>
+      </div>
+      <span class="hint">Thresholds: UK front-of-pack traffic lights, per 100g</span>
+    </div>
+    <div class="bench">
+      <div class="panel">
+        <h3>What&rsquo;s on the packet?</h3>
+        <p class="sub">All values are <b>per 100g</b> (or per 100ml for drinks), exactly as printed.</p>
+        <form id="decodeForm" novalidate>
+          <div class="fgrid">
+            <div class="field full"><label for="fName">Product name</label><input id="fName" type="text" placeholder="e.g. Parle-G biscuits" autocomplete="off"></div>

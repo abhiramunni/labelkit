@@ -661,3 +661,49 @@ function renderVerdict(vals,r){
 /* ============ render: picks ============ */
 function renderPicks(){
   $('pickRail').innerHTML=PICKS.map(function(p,i){
+
+                                        return '<button class="pick" type="button" data-pick="'+i+'"><span class="cat">'+esc(p.cat)+'</span><b>'+esc(p.name)+'</b><span class="nums">Sugar <b>'+fmt(p.sugar,1)+'g</b> · Salt <b>'+fmt(p.salt,1)+'g</b><br>Fat <b>'+fmt(p.fat,1)+'g</b> · Serving <b>'+p.serving+'g</b></span><span class="go">Load into decoder &rarr;</span></button>';
+  }).join('');
+}
+/* ============ render: compare ============ */
+function renderCompare(){
+  var g=$('cmpGrid');
+  $('cmpHint').textContent=state.compare.length+' of 3 on the shelf';
+  var html=state.compare.map(function(c,i){
+    var best=state.compare.length>1&&c.score===Math.max.apply(null,state.compare.map(function(x){return x.score;}));
+    var lights=['sugar','salt','fat','sat'].map(function(k){
+      var L=c.lights[k];
+      var col=L?L.c:null;
+      var lab=col?DOT[col]:'—';
+      return '<span>'+LNAME[k]+' <i style="color:'+(col==='green'?'#3f7a4e':col==='amber'?'#8a5f27':col==='red'?'#b3372a':'#9a8871')+'">'+lab+'</i></span>';
+    }).join('');
+    return '<div class="cmpCard'+(best?' winner':'')+'">'+(best?'<span class="crown">Best of the three</span>':'')+
+      '<h4>'+esc(c.name)+'</h4><div class="cscore">'+c.score+'<small> / 100</small></div><div class="cverdict" style="color:'+(c.stamp==='green'?'#3f7a4e':c.stamp==='amber'?'#8a5f27':c.stamp==='terra'?'#c05b2e':'#b3372a')+'">'+esc(c.verdict)+'</div><div class="cmpLights">'+lights+'</div>'+
+      '<div class="cmpActions"><button class="btn btn-line" type="button" data-uncompare="'+i+'" style="padding:8px 14px;font-size:13px">Remove</button></div></div>';
+  }).join('');
+  for(var i=state.compare.length;i<3;i++){
+    html+='<div class="cmpEmpty"><b>Empty slot '+(i+1)+'</b>Decode a product above, then tap &ldquo;Add to compare&rdquo;.</div>';
+  }
+  g.innerHTML=html;
+}
+/* ============ render: today ============ */
+function todayItems(){var d=new Date().toDateString();return state.today.filter(function(t){return t.date===d;});}
+function renderToday(){
+  var items=todayItems();
+  var sugar=0,salt=0;
+  items.forEach(function(t){sugar+=t.sugar;salt+=t.salt;});
+  $('sugarUsed').textContent=fmt(sugar,1).replace(/\.0$/,'')+'g';
+  $('saltUsed').textContent=fmt(salt,1).replace(/\.0$/,'')+'g';
+  $('sugarArc').style.strokeDashoffset=(339.3*(1-Math.min(1,sugar/25))).toFixed(1);
+  $('saltArc').style.strokeDashoffset=(339.3*(1-Math.min(1,salt/5))).toFixed(1);
+  $('sugarArc').style.stroke=sugar>25?'#b3372a':'#c05b2e';
+  $('saltArc').style.stroke=salt>5?'#b3372a':'#b07d3c';
+  $('budgetNote').textContent=items.length===0
+    ?'Nothing logged yet today. Decode something above and tap \u201cLog one serving\u201d.'
+    :(sugar>25||salt>5)
+      ?'Over budget already — the rest of today is a good day for home food, water and fruit.'
+      :(sugar>18||salt>3.5)
+        ?'Nearly at the day\'s limit. Keep the rest of today light on packets.'
+        :'On track. '+fmt(Math.max(0,25-sugar),0)+'g of sugar and '+fmt(Math.max(0,5-salt),1)+'g of salt left for the day.';
+  $('todayPillTxt').textContent=fmt(sugar,1).replace(/\.0$/,'')+'g sugar \u00b7 '+fmt(salt,1).replace(/\.0$/,'')+'g salt';
+  var list=$('todayList');

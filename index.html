@@ -76,3 +76,47 @@ header.top nav a:hover{background:var(--paper2);color:var(--ink)}
 .stat{background:var(--card);border:1px solid var(--line);border-radius:var(--r);padding:16px 18px;box-shadow:var(--shadow2)}
 .stat b{font-family:Fraunces,serif;font-size:30px;display:block;line-height:1}
 .stat span{font-size:13px;color:var(--ink2);font-weight:600}
+
+  .stat em{display:block;font-style:normal;font-size:12px;color:var(--terra);font-weight:700;margin-top:2px}
+/* ---------- sections ---------- */
+section{padding:38px 0 6px}
+.secHead{display:flex;align-items:flex-end;gap:16px;flex-wrap:wrap;margin-bottom:6px}
+.secHead h2{font-size:30px;font-weight:900;line-height:1.1}
+.secHead .n{font-family:Fraunces,serif;font-size:15px;font-weight:900;color:var(--terra);border:2px solid var(--terra);border-radius:99px;padding:3px 12px;flex:0 0 auto}
+.secHead p{color:var(--ink2);font-size:15px;max-width:640px;margin-top:6px}
+.secHead .hint{margin-left:auto;font-size:13px;color:var(--ink3);font-weight:600}
+/* ---------- decoder bench ---------- */
+.bench{display:grid;grid-template-columns:1fr 1fr;gap:18px;margin-top:20px;align-items:start}
+.panel{background:var(--card);border:1px solid var(--line);border-radius:22px;box-shadow:var(--shadow);padding:22px}
+.panel h3{font-size:21px;font-weight:900}
+.panel .sub{font-size:13.5px;color:var(--ink2);margin-top:3px}
+.fgrid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:16px}
+.fgrid .full{grid-column:1/-1}
+.field label{display:block;font-size:12px;font-weight:700;color:var(--ink2);margin-bottom:5px}
+.field label small{font-weight:500;color:var(--ink3)}
+.field input{width:100%;border:1.5px solid var(--line);border-radius:12px;padding:11px 13px;font-size:15px;background:#fff;color:var(--ink);outline:none;transition:border-color .15s}
+.field input:focus{border-color:var(--bronze);box-shadow:0 0 0 3px rgba(176,125,60,.18)}
+.field input.err{border-color:var(--red);background:#fff7f5}
+.fnote{font-size:12.5px;color:var(--ink3);margin-top:10px}
+.btnrow{display:flex;gap:10px;margin-top:18px;flex-wrap:wrap}
+.btn-ink{background:var(--ink);color:#fdf6e9}
+.btn-line{background:transparent;border:1.5px solid var(--line);color:var(--ink)}
+.btn-line:hover{border-color:var(--bronze)}
+.btn-terra{background:var(--terra);color:#fff}
+.btn:disabled{opacity:.45;cursor:not-allowed;transform:none}
+/* verdict card */
+.verdict{min-height:480px;display:flex;flex-direction:column}
+.verdict .empty{margin:auto;text-align:center;color:var(--ink3);padding:30px 10px}
+.verdict .empty svg{width:64px;height:64px;opacity:.5;margin-bottom:12px}
+.verdict .empty p{font-size:15px;max-width:320px;margin:0 auto}
+.scoreRow{display:flex;gap:18px;align-items:center;margin-top:16px}
+.ring{position:relative;width:132px;height:132px;flex:0 0 132px}
+.ring svg{transform:rotate(-90deg)}
+.ring .val{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center}
+.ring .val b{font-family:Fraunces,serif;font-size:38px;line-height:1}
+.ring .val span{font-size:11px;font-weight:700;color:var(--ink3);letter-spacing:.08em;text-transform:uppercase}
+.stamp{display:inline-block;font-family:Fraunces,serif;font-weight:900;font-size:21px;padding:8px 16px;border-radius:12px;transform:rotate(-1.5deg);border:2.5px solid}
+.stamp.green{color:var(--green);border-color:var(--green);background:var(--greenbg)}
+.stamp.amber{color:#8a5f27;border-color:var(--amber);background:var(--amberbg)}
+.stamp.terra{color:var(--terra);border-color:var(--terra);background:#fbeee6}
+.stamp.red{color:var(--red);border-color:var(--red);background:var(--redbg)}

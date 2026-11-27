@@ -120,3 +120,43 @@ section{padding:38px 0 6px}
 .stamp.amber{color:#8a5f27;border-color:var(--amber);background:var(--amberbg)}
 .stamp.terra{color:var(--terra);border-color:var(--terra);background:#fbeee6}
 .stamp.red{color:var(--red);border-color:var(--red);background:var(--redbg)}
+
+  .verdict .vname{font-family:Fraunces,serif;font-size:22px;font-weight:900;margin-top:10px}
+.verdict .vwhy{font-size:14.5px;color:var(--ink2);margin-top:6px}
+.vmeta{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}
+.vmeta span{background:var(--paper2);border:1px solid var(--line);border-radius:99px;padding:5px 11px;font-size:12.5px;font-weight:700}
+.vmeta span.warn{background:var(--redbg);border-color:#eec4bb;color:var(--red)}
+/* traffic lights */
+.lights{margin-top:18px;display:grid;gap:9px}
+.light{display:grid;grid-template-columns:118px 1fr auto;gap:12px;align-items:center;background:var(--paper);border:1px solid var(--line);border-radius:14px;padding:11px 14px}
+.light .lname{font-weight:700;font-size:14px}
+.light .lname small{display:block;font-weight:500;color:var(--ink3);font-size:12px}
+.light .bar{height:9px;border-radius:99px;background:#eadfca;overflow:hidden}
+.light .bar i{display:block;height:100%;border-radius:99px;transition:width .5s ease}
+.light .dot{font-size:12.5px;font-weight:800;padding:5px 11px;border-radius:99px;white-space:nowrap}
+.dot.green{background:var(--greenbg);color:var(--green)}
+.dot.amber{background:var(--amberbg);color:#8a5f27}
+.dot.red{background:var(--redbg);color:var(--red)}
+.spoon{margin-top:14px;background:var(--paper2);border:1px dashed var(--bronze);border-radius:14px;padding:13px 15px;font-size:14px}
+.spoon b{font-family:Fraunces,serif;font-size:16px}
+.vbtns{display:flex;gap:10px;margin-top:16px;flex-wrap:wrap}
+
+/* ---------- quick picks rail ---------- */
+.rail{display:flex;gap:13px;overflow-x:auto;padding:6px 2px 16px;scroll-snap-type:x mandatory;margin-top:16px}
+.rail::-webkit-scrollbar{height:8px}.rail::-webkit-scrollbar-thumb{background:var(--line);border-radius:99px}
+.pick{flex:0 0 218px;scroll-snap-align:start;background:var(--card);border:1px solid var(--line);border-radius:18px;padding:16px;text-align:left;box-shadow:var(--shadow2);transition:transform .15s,border-color .15s}
+.pick:hover{transform:translateY(-3px);border-color:var(--bronze)}
+.pick b{font-family:Fraunces,serif;font-size:16.5px;display:block;line-height:1.25}
+.pick .cat{font-size:11.5px;font-weight:800;letter-spacing:.08em;text-transform:uppercase;color:var(--terra);margin-bottom:5px;display:block}
+.pick .nums{font-size:12.5px;color:var(--ink2);margin-top:8px;line-height:1.6}
+.pick .nums b{display:inline;font-family:Inter,sans-serif;font-size:12.5px}
+.pick .go{margin-top:10px;font-size:13px;font-weight:700;color:var(--bronze2)}
+/* ---------- compare ---------- */
+.cmpGrid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-top:18px}
+.cmpCard{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:18px;position:relative;box-shadow:var(--shadow2)}
+.cmpCard.winner{border:2px solid var(--green)}
+.cmpCard .crown{position:absolute;top:-11px;right:14px;background:var(--green);color:#fff;font-size:11.5px;font-weight:800;padding:4px 10px;border-radius:99px}
+.cmpCard h4{font-family:Fraunces,serif;font-size:18px;line-height:1.25}
+.cmpCard .cscore{font-family:Fraunces,serif;font-size:34px;font-weight:900;margin-top:6px}
+.cmpCard .cscore small{font-size:13px;color:var(--ink3);font-family:Inter,sans-serif;font-weight:600}
+.cmpCard .cverdict{font-size:13px;font-weight:700;margin-top:2px}

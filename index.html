@@ -529,3 +529,25 @@ var ALIASES=[
  {n:'Dextrose',d:'Dextrose is glucose by another name — it is sugar, full stop. It raises blood sugar just as fast as table sugar.'},
  {n:'Maltodextrin',d:'Maltodextrin is a starch broken into fast-digesting sugars. It often hides in "sugar-free" snacks and still counts.'},
  {n:'High-fructose corn syrup',d:'HFCS is the sweetener in most colas and ketchups. Cheap, very sweet, and still sugar — about 11g per 100ml of cola.'},
+
+   {n:'Fruit juice concentrate',d:'Concentrate is fruit with the water (and most of the fibre) removed. What is left is mostly sugar — the label can still say "made with real fruit".'},
+ {n:'Honey',d:'Honey is about 80% sugar. It is natural, but your body treats it like sugar — 1 teaspoon is roughly 6g.'},
+ {n:'Jaggery',d:'Jaggery has a few minerals, but it is still about 65–85% sucrose. "Made with jaggery" is not "sugar-free".'},
+ {n:'Cane juice',d:'Cane juice is sugar cane squeezed and dried. It sounds wholesome; it is sugar with a nicer name.'},
+ {n:'Agave nectar',d:'Agave is sweeter than sugar and mostly fructose. It is still sugar, and the fructose goes straight to the liver.'},
+ {n:'Molasses',d:'Molasses is the dark syrup left after sugar refining. A spoonful has traces of iron — and about 12g of sugar per tablespoon.'},
+ {n:'Brown rice syrup',d:'Brown rice syrup is rice starch broken down into sugars. It sounds healthy; it behaves like sugar in the body.'},
+ {n:'Invert sugar',d:'Invert sugar is sucrose split into glucose and fructose so it tastes sweeter. It is in biscuits, jams and soft drinks.'},
+ {n:'Palm sugar',d:'Palm sugar is boiled-down palm sap — about 75% sugar. A traditional sweetener, still sugar by any measure.'}
+];
+var GUIDES=[
+ {t:'Read a label in 30 seconds',b:'<b>1.</b> Find the "per 100g" column first — the per-serving column is the maker\'s choice, not yours. <b>2.</b> Look at sugar, salt and total fat. <b>3.</b> Compare two packs per 100g, never per serving. <b>4.</b> If sugar is over 22.5g per 100g, it is a red light — a treat, not a staple.'},
+ {t:'The serving-size trap',b:'A "serving" of chips can be 30g — about 15 chips — while the pack holds 100g. A "serving" of cola is sometimes 200ml, but the bottle is 330ml. <b>Always multiply by what you actually eat.</b> If you finish the pack, count the whole pack.'},
+ {t:'Sugar\'s many names',b:'Ingredients lists hide sugar behind 50+ names: dextrose, maltodextrin, fruit juice concentrate, jaggery, agave. <b>Rule:</b> anything ending in "-ose", any syrup, any juice concentrate — that is sugar. Tap the chips above to meet the usual suspects.'},
+ {t:'Salt vs sodium — the switcheroo',b:'Some packs list sodium, not salt. They are not the same number: <b>salt (g) = sodium (mg) × 2.5 ÷ 1000</b>. So 400mg of sodium is 1g of salt. A Maggi pack with 2,660mg of sodium per serving is 6.6g of salt — more than a whole day\'s budget.'},
+ {t:'"No added sugar" doesn\'t mean sugar-free',b:'A juice can say "no added sugar" and still carry 20g of sugar per 200ml from the fruit itself. A biscuit can be "sugar-free" and still be sweetened with maltitol — which still affects blood sugar. <b>Read the per-100g sugar line, not the claim on the front.</b>'},
+ {t:'What the new FSSAI warnings will mean',b:'In November 2026 the Supreme Court asked FSSAI to finalise front-of-pack warnings — <b>"High Sugar", "High Salt" and "High Fat"</b> — within four months. Soon the red lights in this app may be printed on the packet itself. Until then, this decoder does the job for you.'}
+];
+/* UK front-of-pack traffic-light thresholds, per 100g. Per-serving red lines
+   (sugar >27g, salt >1.8g, fat >21g, saturates >6g) flip a light to red. */
+var THRESH={

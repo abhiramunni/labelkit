@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>LabelKit — Read Any Food Label in Plain Words</title>
+<meta name="description" content="Type in the numbers from any food packet and get a plain-words verdict: traffic lights for sugar, salt and fat, a score out of 100, and what one serving really means.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,600;9..144,700;9..144,900&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{
+  --paper:#faf5ec; --paper2:#f3ead9; --card:#fffdf7; --ink:#2b1d12; --ink2:#6b5844; --ink3:#9a8871;
+  --line:#e5d9c3; --bronze:#b07d3c; --bronze2:#8a5f27; --amber:#e8a33d; --terra:#c05b2e; --terra2:#a34a22;
+  --green:#3f7a4e; --greenbg:#e3efe2; --amberbg:#fdf0d3; --red:#b3372a; --redbg:#fbe4de;
+  --shadow:0 10px 30px rgba(43,29,18,.10); --shadow2:0 4px 14px rgba(43,29,18,.08);
+  --r:18px;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{background:var(--paper);color:var(--ink);font-family:Inter,system-ui,-apple-system,sans-serif;font-size:16px;line-height:1.55;-webkit-font-smoothing:antialiased}
+h1,h2,h3,.serif{font-family:Fraunces,Georgia,serif}
+button{font-family:inherit;cursor:pointer}
+input,select{font-family:inherit}
+img{max-width:100%;display:block}
+a{color:var(--bronze2)}
+.wrap{max-width:1120px;margin:0 auto;padding:0 20px}
+::selection{background:var(--amber);color:var(--ink)}
+/* ---------- intro ---------- */
+#intro{position:fixed;inset:0;z-index:200;background:linear-gradient(160deg,#241708,#3a2410 55%,#5c3413);display:flex;flex-direction:column;align-items:center;justify-content:center;color:#fdf6e9;transition:opacity .6s,visibility .6s;text-align:center;padding:24px}
+#intro.hide{opacity:0;visibility:hidden;pointer-events:none}
+#intro .lens{width:92px;height:92px;border-radius:50%;border:3px solid var(--amber);display:flex;align-items:center;justify-content:center;animation:lensIn 1s cubic-bezier(.2,.9,.3,1.2) both, floaty 3.4s ease-in-out 1s infinite}
+#intro .lens svg{width:46px;height:46px}
+@keyframes lensIn{from{transform:scale(.4) rotate(-30deg);opacity:0}to{transform:scale(1) rotate(0);opacity:1}}
+@keyframes floaty{0%,100%{transform:translateY(0)}50%{transform:translateY(-9px)}}
+#intro h1{font-size:52px;font-weight:900;letter-spacing:.5px;margin-top:22px;animation:rise .8s .25s both}
+#intro h1 em{color:var(--amber);font-style:normal}
+#intro p{font-size:17px;opacity:.85;margin-top:8px;animation:rise .8s .45s both}
+@keyframes rise{from{transform:translateY(18px);opacity:0}to{transform:translateY(0);opacity:1}}
+#intro .bar{width:min(300px,80vw);height:5px;background:rgba(255,255,255,.22);border-radius:99px;margin-top:30px;overflow:hidden;animation:rise .8s .6s both}
+#intro .bar i{display:block;height:100%;width:0;background:var(--amber);border-radius:99px;animation:fill 3.6s .3s ease forwards}
+@keyframes fill{to{width:100%}}

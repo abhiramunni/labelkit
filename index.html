@@ -824,3 +824,65 @@ function bind(){
     try{localStorage.removeItem(KEY);}catch(e){}
     state={seen:true,coachDone:true,compare:[],today:[],samples:true};
     save();renderCompare();renderToday();
+
+                                     $('verdictEmpty').style.display='block';$('verdictBody').style.display='none';current=null;
+    toast('Erased. Fresh start.');
+  });
+  $('todayPill').addEventListener('click',function(){safeScroll($('today'));});
+  $('introSkip').addEventListener('click',hideIntro);
+}
+function copyText(text,msg){
+  function done(){toast(msg);}
+  if(navigator.clipboard&&navigator.clipboard.writeText){navigator.clipboard.writeText(text).then(done,function(){fallback();});}
+  else fallback();
+  function fallback(){
+    var ta=document.createElement('textarea');ta.value=text;ta.style.position='fixed';ta.style.opacity='0';
+    document.body.appendChild(ta);try{ta.select();document.execCommand('copy');}catch(e){}
+    document.body.removeChild(ta);done();
+  }
+}
+/* ============ intro + coach ============ */
+function hideIntro(){
+  var intro=$('intro');if(!intro||intro.classList.contains('hide'))return;
+  intro.classList.add('hide');
+  state.seen=true;save();
+  if(!state.coachDone)setTimeout(showCoach,650);
+}
+var coachStep=0;
+var COACH=[
+ {t:'Start with the numbers on the packet',x:'Flip any packet over. The \u201cper 100g\u201d row is the honest one — type sugar, salt and fat into the decoder and tap Decode.'},
+ {t:'Traffic lights tell the truth',x:'Green is low, amber is medium, red is high — always per 100g. A red light on sugar means one serving can carry most of your day\u2019s sugar.'},
+ {t:'Log it, then compare',x:'Tap \u201cLog one serving\u201d to watch your day\u2019s sugar and salt budget fill up, and \u201cAdd to compare\u201d to settle the biscuits-vs-biscuits argument.'}
+];
+function showCoach(){
+  coachStep=0;renderCoach();$('coach').classList.add('show');
+}
+function renderCoach(){
+  var c=COACH[coachStep];
+  $('coachStep').textContent='Step '+(coachStep+1)+' of 3';
+  $('coachTitle').textContent=c.t;$('coachText').textContent=c.x;
+  document.querySelectorAll('#coach .dots i').forEach(function(d,i){d.classList.toggle('on',i===coachStep);});
+  $('coachNext').textContent=coachStep===2?'Start decoding':'Next';
+}
+function bindCoach(){
+  $('coachNext').addEventListener('click',function(){
+    if(coachStep<2){coachStep++;renderCoach();}
+    else{$('coach').classList.remove('show');state.coachDone=true;save();}
+  });
+  $('coachSkip').addEventListener('click',function(){$('coach').classList.remove('show');state.coachDone=true;save();});
+}
+/* ============ init ============ */
+function init(){
+  renderPicks();renderAliases();renderGuides();renderCompare();renderToday();bind();bindCoach();
+  var intro=$('intro');
+  if(state.seen){setTimeout(hideIntro,900);}
+  else{setTimeout(hideIntro,3800);}
+  if(intro)intro.addEventListener('click',function(e){if(e.target===intro)hideIntro();});
+}
+/* Run init at the end of the document, so every element above already exists. */
+init();
+window.LabelKit={state:function(){return state;},decode:decode,lightFor:lightFor,PICKS:PICKS,THRESH:THRESH,ALIASES:ALIASES,GUIDES:GUIDES};
+})();
+</script>
+</body>
+</html>

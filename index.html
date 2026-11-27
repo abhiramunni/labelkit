@@ -766,3 +766,61 @@ function bind(){
   });
   $('addCompare').addEventListener('click',function(){
     if(!current){toast('Decode a label first.');return;}
+
+                                       if(state.compare.length>=3){toast('The shelf holds three. Remove one to add another.');return;}
+    var r=current.r,v=current.vals;
+    state.compare.push({name:v.name,score:r.score,verdict:r.verdict,stamp:r.stamp,lights:r.lights});
+    save();renderCompare();safeScroll($('compare'));
+    toast(v.name+' added to the compare shelf.');
+  });
+  $('cmpGrid').addEventListener('click',function(e){
+    var b=e.target.closest('[data-uncompare]');if(!b)return;
+    state.compare.splice(parseInt(b.getAttribute('data-uncompare'),10),1);
+    save();renderCompare();
+  });
+  $('clearCmp').addEventListener('click',function(){state.compare=[];save();renderCompare();toast('Compare shelf cleared.');});
+  $('todayList').addEventListener('click',function(e){
+    var b=e.target.closest('[data-untoday]');if(!b)return;
+    var items=todayItems();
+    var target=items[parseInt(b.getAttribute('data-untoday'),10)];
+    var idx=state.today.indexOf(target);
+    if(idx>=0)state.today.splice(idx,1);
+    save();renderToday();
+  });
+  $('resetToday').addEventListener('click',function(){
+    var d=new Date().toDateString();
+    state.today=state.today.filter(function(t){return t.date!==d;});
+    save();renderToday();toast('Today is a fresh page.');
+  });
+  $('aliasChips').addEventListener('click',function(e){
+    var b=e.target.closest('[data-alias]');if(!b)return;
+    document.querySelectorAll('.alias').forEach(function(x){x.classList.remove('on');});
+    b.classList.add('on');
+    var a=ALIASES[parseInt(b.getAttribute('data-alias'),10)];
+    $('aliasNote').innerHTML='<b>'+esc(a.n)+' —</b> '+esc(a.d);
+  });
+  $('guideList').addEventListener('click',function(e){
+    var b=e.target.closest('[data-guide]');if(!b)return;
+    var g=$('guide'+b.getAttribute('data-guide'));if(g)g.classList.toggle('open');
+  });
+  $('copyVerdict').addEventListener('click',function(){
+    if(!current){toast('Decode a label first.');return;}
+    var v=current.vals,r=current.r;
+    var lines=['LabelKit verdict — '+v.name,'Score: '+r.score+'/100 — '+r.verdict];
+    ['sugar','salt','fat','sat'].forEach(function(k){var L=r.lights[k];lines.push(LNAME[k]+': '+(L?fmt(L.v100,1)+'g per 100g ('+DOT[L.c]+')':'not listed'));});
+    if(r.serveSugar!=null)lines.push('One serving: about '+fmt(r.serveSugar/4,1)+' teaspoons of sugar.');
+    copyText(lines.join('\n'),'Verdict copied.');
+  });
+  $('copySummary').addEventListener('click',function(){
+    var items=todayItems(),sugar=0,salt=0;
+    items.forEach(function(t){sugar+=t.sugar;salt+=t.salt;});
+    var lines=['LabelKit — my day so far','Sugar: '+fmt(sugar,1)+'g of 25g  ·  Salt: '+fmt(salt,1)+'g of 5g'];
+    items.forEach(function(t){lines.push('- '+t.name+': '+fmt(t.sugar,1)+'g sugar, '+fmt(t.salt,1)+'g salt');});
+    if(state.compare.length)lines.push('On the compare shelf: '+state.compare.map(function(c){return c.name+' ('+c.score+')';}).join(', '));
+    copyText(lines.join('\n'),'Day summary copied.');
+  });
+  $('eraseAll').addEventListener('click',function(){
+    if(!window.confirm('Erase everything LabelKit saved on this device?'))return;
+    try{localStorage.removeItem(KEY);}catch(e){}
+    state={seen:true,coachDone:true,compare:[],today:[],samples:true};
+    save();renderCompare();renderToday();

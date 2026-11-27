@@ -707,3 +707,62 @@ function renderToday(){
         :'On track. '+fmt(Math.max(0,25-sugar),0)+'g of sugar and '+fmt(Math.max(0,5-salt),1)+'g of salt left for the day.';
   $('todayPillTxt').textContent=fmt(sugar,1).replace(/\.0$/,'')+'g sugar \u00b7 '+fmt(salt,1).replace(/\.0$/,'')+'g salt';
   var list=$('todayList');
+
+    if(!items.length){list.innerHTML='<div class="todayEmpty">No servings logged yet. Your day starts empty — keep it that way, or log honestly.</div>';return;}
+  list.innerHTML=items.map(function(t,i){
+    return '<div class="titem"><div class="tn">'+esc(t.name)+'<small>'+fmt(t.sugar,1)+'g sugar · '+fmt(t.salt,1)+'g salt · '+esc(t.when)+'</small></div><button type="button" data-untoday="'+i+'" aria-label="Remove">\u00d7</button></div>';
+  }).join('');
+}
+/* ============ render: aliases + guides ============ */
+function renderAliases(){
+  $('aliasChips').innerHTML=ALIASES.map(function(a,i){return '<button class="alias" type="button" data-alias="'+i+'">'+esc(a.n)+'</button>';}).join('');
+}
+function renderGuides(){
+  $('guideList').innerHTML=GUIDES.map(function(g,i){
+    return '<div class="guide" id="guide'+i+'"><button type="button" data-guide="'+i+'"><span>'+esc(g.t)+'</span><span class="chev">+</span></button><div class="gbody">'+g.b+'</div></div>';
+  }).join('');
+}
+/* ============ actions ============ */
+function decodeNow(){
+  var vals=readForm();
+  var has=['sugar','salt','fat','sat'].some(function(k){return vals[k]!=null;});
+  ['fSugar','fSalt','fFat','fSat'].forEach(function(id){$(id).classList.remove('err');});
+  if(!has){
+    ['fSugar','fSalt','fFat','fSat'].forEach(function(id){$(id).classList.add('err');});
+    toast('Enter at least one of sugar, salt, fat or saturated fat.');
+    return;
+  }
+  var r=decode(vals);
+  renderVerdict(vals,r);
+  safeScroll($('verdictPanel'));
+  toast(vals.name+': '+r.score+' / 100 — '+r.verdict);
+}
+function loadPick(i){
+  var p=PICKS[i];if(!p)return;
+  $('fName').value=p.name;$('fEnergy').value=p.energy;$('fServing').value=p.serving;
+  $('fSugar').value=p.sugar;$('fSalt').value=p.salt;$('fFat').value=p.fat;$('fSat').value=p.sat;
+  $('fProtein').value=p.protein;$('fFibre').value=p.fibre;
+  decodeNow();
+}
+function bind(){
+  $('decodeForm').addEventListener('submit',function(e){e.preventDefault();decodeNow();});
+  $('clearForm').addEventListener('click',function(){
+    ['fName','fEnergy','fServing','fSugar','fSalt','fFat','fSat','fProtein','fFibre'].forEach(function(id){$(id).value='';$(id).classList.remove('err');});
+    $('verdictEmpty').style.display='block';$('verdictBody').style.display='none';current=null;
+  });
+  $('fillSample').addEventListener('click',function(){loadPick(0);});
+  $('pickRail').addEventListener('click',function(e){
+    var b=e.target.closest('[data-pick]');if(b)loadPick(parseInt(b.getAttribute('data-pick'),10));
+  });
+  $('logToday').addEventListener('click',function(){
+    if(!current){toast('Decode a label first.');return;}
+    var v=current.vals,serve=v.serving!=null?v.serving:100;
+    var sugar=v.sugar!=null?v.sugar*serve/100:0;
+    var salt=v.salt!=null?v.salt*serve/100:0;
+    var now=new Date();
+    state.today.push({name:v.name,sugar:Math.round(sugar*10)/10,salt:Math.round(salt*10)/10,date:now.toDateString(),when:now.toLocaleTimeString('en-IN',{hour:'2-digit',minute:'2-digit'})});
+    save();renderToday();
+    toast('Logged one serving ('+fmt(serve,0)+'g): +'+fmt(sugar,1)+'g sugar, +'+fmt(salt,1)+'g salt.');
+  });
+  $('addCompare').addEventListener('click',function(){
+    if(!current){toast('Decode a label first.');return;}
